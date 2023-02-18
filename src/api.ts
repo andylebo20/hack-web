@@ -74,6 +74,11 @@ export const Api = {
     return res.data;
   },
   // returns a property object
+  getProperty: async (propertyId: string): Promise<Property> => {
+    const res = await axios.get(BASE_URL + `/property/${propertyId}`);
+    return res.data;
+  },
+  // returns a property object
   createProperty: async (
     address: string,
     price: number,
