@@ -57,12 +57,14 @@ export const Api = {
   getCheckoutPageUrl: async (
     propertyId: string,
     nameOfRenter: string,
-    emailOfRenter: string
+    emailOfRenter: string,
+    daysBooked: number
   ): Promise<string> => {
     const res = await axios.get(BASE_URL + `/checkout-url/${propertyId}`, {
       params: {
         nameOfRenter,
         emailOfRenter,
+        daysBooked,
       },
     });
     return res.data;

@@ -49,7 +49,7 @@ export const PropertyScreen = () => {
       <div style={styles.innerContainer}>
         <img src={property.pictureUrl} style={styles.propertyPicture} />
         <div style={styles.rightSide}>
-          <label style={styles.price}>${property.price}/hr</label>
+          <label style={styles.price}>${property.price}/day</label>
           <label style={styles.address}>{property.address}</label>
           <label style={styles.desc}>
             {property.typeOfSpace} with {property.size} square feet of available

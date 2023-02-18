@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { Api, Property } from "../../../api";
 import Swal from "sweetalert2";
 import { showGenericErrorAlert } from "../../../helpers";
@@ -14,6 +14,10 @@ export const BookProperty = ({ property }: Props) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [name, setName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
+  const [daysBooked, setDaysBooked] = useState<number>(1);
+  const [isDetailsInputVisible, setIsDetailsInputVisible] =
+    useState<boolean>(false);
+  const finishBookingBtnRef = useRef(null);
 
   const _handleBookProperty = async () => {
     try {
@@ -24,7 +28,12 @@ export const BookProperty = ({ property }: Props) => {
       if (!email.includes("@") || !email.includes(".")) {
         throw new Error("Please enter a valid email.");
       }
-      const url = await Api.getCheckoutPageUrl(property._id, name, email);
+      const url = await Api.getCheckoutPageUrl(
+        property._id,
+        name,
+        email,
+        daysBooked
+      );
       window.location.href = url;
     } catch (e) {
       showGenericErrorAlert(e);
@@ -32,36 +41,66 @@ export const BookProperty = ({ property }: Props) => {
     }
   };
 
+  const _handleOpenReserveDetails = () => {
+    setIsDetailsInputVisible(true);
+    if (finishBookingBtnRef?.current) {
+      (finishBookingBtnRef.current as any).scrollIntoView({
+        behavior: "smooth",
+      });
+    }
+  };
+
   return (
     <div style={styles.container}>
-      <label style={styles.interestedLbl}>Are you interested?</label>
-      <label style={styles.reserveDesc}>
-        Enter some more details about yourself to reserve this space now.
+      <label style={styles.interestedLbl}>
+        {isDetailsInputVisible ? "Let's book it" : "Are you interested?"}
       </label>
-      <div style={styles.innerContainer}>
-        <label style={styles.inputTitle}>Full name</label>
-        <input
-          style={styles.input}
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
-        <label style={styles.inputTitle}>Email</label>
-        <input
-          style={styles.input}
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
+      <label style={styles.reserveDesc}>
+        {isDetailsInputVisible
+          ? "Once booked, your reservation will begin tomorrow."
+          : "Reserve the space before it gets taken."}
+      </label>
+      {isDetailsInputVisible ? (
+        <div style={styles.innerContainer}>
+          <label style={styles.inputTitle}>Full name</label>
+          <input
+            style={styles.input}
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+          <label style={styles.inputTitle}>Email</label>
+          <input
+            style={styles.input}
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <label style={styles.inputTitle}>Number of days to reserve</label>
+          <input
+            style={styles.input}
+            value={daysBooked}
+            onChange={(e) => setDaysBooked(Number(e.target.value))}
+            type="number"
+          />
+          <button
+            style={{
+              ...styles.bookBtn,
+              ...(isLoading && { opacity: 0.3, cursor: "auto" }),
+            }}
+            disabled={isLoading}
+            onClick={_handleBookProperty}
+            ref={finishBookingBtnRef}
+          >
+            {isLoading ? "Please wait..." : "Pay and reserve"}
+          </button>
+        </div>
+      ) : (
         <button
-          style={{
-            ...styles.bookBtn,
-            ...(isLoading && { opacity: 0.3, cursor: "auto" }),
-          }}
-          disabled={isLoading}
-          onClick={_handleBookProperty}
+          style={styles.openDetailsBtn}
+          onClick={_handleOpenReserveDetails}
         >
-          {isLoading ? "Please wait..." : "Pay and reserve"}
+          Reserve now
         </button>
-      </div>
+      )}
     </div>
   );
 };
@@ -75,6 +114,7 @@ const styles: StylesType = {
     paddingTop: 60,
     width: "100%",
     maxWidth: 1000,
+    paddingBottom: 200,
   },
   interestedLbl: {
     fontSize: 24,
@@ -84,7 +124,7 @@ const styles: StylesType = {
   reserveDesc: {
     fontSize: 16,
     color: Colors.darkGray,
-    paddingBottom: 30,
+    paddingBottom: 20,
   },
   inputTitle: {
     fontSize: 16,
@@ -124,5 +164,17 @@ const styles: StylesType = {
     backgroundColor: Colors.white,
     //boxShadow: "0px 2px 6px rgba(0,0,0,0.2)",
     borderRadius: 8,
+  },
+  openDetailsBtn: {
+    width: 150,
+    height: 40,
+    borderRadius: 8,
+    cursor: "pointer",
+    backgroundColor: Colors.pinkishRed,
+    color: Colors.white,
+    fontWeight: 600,
+    outline: "none",
+    border: "none",
+    fontSize: 16,
   },
 };
