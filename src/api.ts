@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const IS_RUNNING_SERVER_LOCALLY = true;
+const IS_RUNNING_SERVER_LOCALLY = false;
 
 const BASE_URL = IS_RUNNING_SERVER_LOCALLY
   ? "http://localhost:5900/api/users"
