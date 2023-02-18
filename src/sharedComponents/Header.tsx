@@ -19,6 +19,11 @@ export const Header = () => {
           route="/properties"
         />
         <HeaderTab
+          title="My earnings"
+          isSelected={pathname === "/owner/stats"}
+          route="/owner/stats"
+        />
+        <HeaderTab
           title="Create listing"
           isSelected={pathname === "/owner/new-store"}
           route="/owner/new-store"
