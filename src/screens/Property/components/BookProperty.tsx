@@ -11,7 +11,6 @@ type Props = {
 };
 
 export const BookProperty = ({ property }: Props) => {
-  const history = useHistory();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [name, setName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
@@ -22,17 +21,15 @@ export const BookProperty = ({ property }: Props) => {
       if (!name || !email) {
         throw new Error("Please fill in all the details.");
       }
-      await Api.createBooking(property._id, name, email);
-      await Swal.fire({
-        title: "Booked!",
-        text: "We've successfully reserved the space for you.",
-        icon: "success",
-      });
-      history.push("/properties");
+      if (!email.includes("@") || !email.includes(".")) {
+        throw new Error("Please enter a valid email.");
+      }
+      const url = await Api.getCheckoutPageUrl(property._id, name, email);
+      window.location.href = url;
     } catch (e) {
       showGenericErrorAlert(e);
+      setIsLoading(false);
     }
-    setIsLoading(false);
   };
 
   return (
@@ -62,7 +59,7 @@ export const BookProperty = ({ property }: Props) => {
           disabled={isLoading}
           onClick={_handleBookProperty}
         >
-          {isLoading ? "Reserving..." : "Reserve"}
+          {isLoading ? "Please wait..." : "Pay and reserve"}
         </button>
       </div>
     </div>
