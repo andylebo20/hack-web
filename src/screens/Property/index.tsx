@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import { LoadingSpinner } from "../../sharedComponents/LoadingSpinner";
 import { StylesType } from "../../styles";
 import { Colors } from "../../colors";
+import moment from "moment";
 
 export const PropertyScreen = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -38,6 +39,12 @@ export const PropertyScreen = () => {
 
   return (
     <div style={styles.container}>
+      <div style={styles.topInfo}>
+        <label style={styles.title}>Property details</label>
+        <label style={styles.listedDaysAgo}>
+          Listed {moment(property.createdAt).fromNow()}
+        </label>
+      </div>
       <div style={styles.innerContainer}>
         <img src={property.pictureUrl} style={styles.propertyPicture} />
         <div style={styles.rightSide}>
@@ -47,6 +54,8 @@ export const PropertyScreen = () => {
             {property.typeOfSpace} with {property.size} square feet of available
             space.
           </label>
+          <hr style={styles.hr} />
+          <label style={styles.fullDescription}>{property.description}</label>
         </div>
       </div>
     </div>
@@ -60,16 +69,19 @@ const styles: StylesType = {
     alignItems: "center",
     justifyContent: "flex-start",
     paddingTop: 80,
+    width: "100%",
   },
   innerContainer: {
     display: "flex",
     flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: "flex-start",
+    alignItems: "flex-start",
+    width: "100%",
+    maxWidth: 1000,
   },
   propertyPicture: {
-    width: 300,
-    height: 180,
+    width: 450,
+    height: 260,
     objectFit: "cover",
     borderRadius: 8,
   },
@@ -83,6 +95,8 @@ const styles: StylesType = {
     backgroundColor: Colors.white,
     borderRadius: 8,
     boxShadow: "0px 2px 6px rgba(0,0,0,0.2)",
+    width: "50%",
+    maxWidth: 500,
   },
   price: {
     fontSize: 24,
@@ -96,5 +110,34 @@ const styles: StylesType = {
   desc: {
     fontSize: 16,
     paddingTop: 8,
+  },
+  fullDescription: {
+    fontSize: 14,
+    paddingTop: 16,
+  },
+  hr: {
+    backgroundColor: Colors.lightGray,
+    height: 1,
+    border: "none",
+    width: "100%",
+    marginTop: 20,
+  },
+  title: {
+    fontSize: 30,
+    fontWeight: 600,
+    paddingBottom: 8,
+  },
+  listedDaysAgo: {
+    fontSize: 16,
+    color: Colors.darkGray,
+    paddingBottom: 40,
+  },
+  topInfo: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "flex-start",
+    alignItems: "flex-start",
+    width: "100%",
+    maxWidth: 1000,
   },
 };
