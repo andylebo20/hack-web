@@ -28,8 +28,8 @@ export const BookProperty = ({ property }: Props) => {
       window.location.href = url;
     } catch (e) {
       showGenericErrorAlert(e);
+      setIsLoading(false);
     }
-    setIsLoading(false);
   };
 
   return (

@@ -64,9 +64,9 @@ const HARD_CODED_PROPERTIES = [
 export const Api = {
   // returns array of Property objects
   getProperties: async (): Promise<Property[]> => {
-    // const res = await axios.get(BASE_URL + "/properties");
-    // return res.data;
-    return HARD_CODED_PROPERTIES;
+    const res = await axios.get(BASE_URL + "/properties");
+    return res.data;
+    // return HARD_CODED_PROPERTIES;
   },
   // returns a booking object
   //   createBooking: async (
