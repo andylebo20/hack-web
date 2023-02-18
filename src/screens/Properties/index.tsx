@@ -40,18 +40,23 @@ export const PropertiesScreen = () => {
       <div style={styles.container}>
         {propertiesList.map((property) => (
           <div style={styles.innerContainer}>
+<<<<<<< HEAD
+            <div style = {styles.propertyCard}> 
+              <Link to={`/property/${property?._id}`}>
+=======
             <div style={styles.propertyCard}>
               <Link to={`/property/${property._id}`}>
+>>>>>>> d5b5aa7dc21e6e92b99cf1cc8d381f5513801758
                 <img
                   alt="property image"
-                  src={property.pictureUrl}
+                  src={property?.pictureUrl}
                   style={styles.propertyPicture}
                 />
               </Link>
               <div>
-                <h3 style={styles.address}>{property.address}</h3>
-                <h3 style={styles.size}>{property.size} sqft</h3>
-                <h3 style={styles.price}>${property.price}/hr</h3>
+                <h3 style={styles.size}>{property?.typeOfSpace}</h3>
+                <h3 style={styles.address}>{property?.size} sqft</h3>
+                <h3 style={styles.address}>${property?.price}/hr</h3>
               </div>
             </div>
           </div>
