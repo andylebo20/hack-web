@@ -4,8 +4,6 @@ import React, { useEffect, useState } from "react";
 import { LoadingSpinner } from "../../sharedComponents/LoadingSpinner";
 import { StylesType } from "../../styles";
 import { Colors } from "../../colors";
-import "./Properties.css";
-
 
 export const PropertiesScreen = () => {
   const [error, setError] = useState(null);
@@ -43,17 +41,17 @@ export const PropertiesScreen = () => {
         {propertiesList.map((property) => (
           <div style={styles.innerContainer}>
             <div style = {styles.propertyCard}> 
-              <Link to={`/property/${property._id}`}>
+              <Link to={`/property/${property?._id}`}>
                 <img
                   alt="property image"
-                  src={property.pictureUrl}
+                  src={property?.pictureUrl}
                   style={styles.propertyPicture}
                 />
               </Link>
               <div>
-                <h3 style={styles.address}>{property.address}</h3>
-                <h3 style={styles.size}>{property.size} sqft</h3>
-                <h3 style={styles.price}>${property.price}/hr</h3>
+                <h3 style={styles.size}>{property?.typeOfSpace}</h3>
+                <h3 style={styles.address}>{property?.size} sqft</h3>
+                <h3 style={styles.address}>${property?.price}/hr</h3>
               </div>
             </div>
           </div>
