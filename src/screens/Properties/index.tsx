@@ -26,7 +26,7 @@ export const PropertiesScreen = () => {
     };
     fetchProperies();
   }, []);
-  
+
   if (isLoading || !propertiesList) {
     return (
       <div style={{ ...styles.container, paddingTop: 70 }}>
@@ -37,11 +37,16 @@ export const PropertiesScreen = () => {
   return (
     <div>
       <h2 style={styles.title}> Properties</h2>
-      <div style={styles.container}> 
+      <div style={styles.container}>
         {propertiesList.map((property) => (
           <div style={styles.innerContainer}>
+<<<<<<< HEAD
             <div style = {styles.propertyCard}> 
               <Link to={`/property/${property?._id}`}>
+=======
+            <div style={styles.propertyCard}>
+              <Link to={`/property/${property._id}`}>
+>>>>>>> d5b5aa7dc21e6e92b99cf1cc8d381f5513801758
                 <img
                   alt="property image"
                   src={property?.pictureUrl}
@@ -59,7 +64,6 @@ export const PropertiesScreen = () => {
       </div>
     </div>
   );
-  
 };
 
 const styles: StylesType = {
@@ -136,4 +140,3 @@ const styles: StylesType = {
     maxWidth: 1000,
   },
 };
-
