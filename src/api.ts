@@ -2,25 +2,23 @@ import axios from "axios";
 
 const BASE_URL = "https://hack-server.onrender.com/api/users";
 
-// -- Property -- //
-/*
-_id: string;
-address: string;
-price: number;
-typeOfSpace: string;
-size: number;
-pictureUrl: string;
-createdAt: Date;
-*/
+export type Property = {
+  _id: string;
+  address: string;
+  price: number;
+  typeOfSpace: string;
+  size: number;
+  pictureUrl: string;
+  createdAt: Date;
+};
 
-// -- Booking -- //
-/*
-_id: string;
-propertyId: string;
-nameOfRenter: string;
-emailOfRenter: string;
-createdAt: Date;
-*/
+export type Booking = {
+  _id: string;
+  propertyId: string;
+  nameOfRenter: string;
+  emailOfRenter: string;
+  createdAt: Date;
+};
 
 const HARD_CODED_PROPERTIES = [
   {
@@ -57,7 +55,7 @@ const HARD_CODED_PROPERTIES = [
 
 export const Api = {
   // returns array of Property objects
-  getProperties: async () => {
+  getProperties: async (): Promise<Property[]> => {
     // const res = await axios.get(BASE_URL + "/properties");
     // return res.data;
     return HARD_CODED_PROPERTIES;
@@ -67,7 +65,7 @@ export const Api = {
     propertyId: string,
     nameOfRenter: string,
     emailOfRenter: string
-  ) => {
+  ): Promise<Booking> => {
     const res = await axios.post(BASE_URL + "/book", {
       propertyId,
       nameOfRenter,
@@ -82,7 +80,7 @@ export const Api = {
     typeOfSpace: string,
     size: number,
     pictureUrl: string
-  ) => {
+  ): Promise<Property> => {
     const res = await axios.post(BASE_URL + "/property", {
       address,
       price,
