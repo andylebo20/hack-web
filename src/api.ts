@@ -9,6 +9,7 @@ export type Property = {
   typeOfSpace: string;
   size: number;
   pictureUrl: string;
+  description: string;
   createdAt: Date;
 };
 
@@ -27,6 +28,7 @@ const HARD_CODED_PROPERTIES = [
     price: 200,
     typeOfSpace: "Coffee shop",
     size: 2000,
+    description: "Beautiful place",
     pictureUrl:
       "https://perfectdailygrind.com/wp-content/uploads/2019/03/interior-of-a-coffee-shop.jpg",
     createdAt: new Date(),
@@ -37,6 +39,7 @@ const HARD_CODED_PROPERTIES = [
     price: 149,
     typeOfSpace: "Coffee shop",
     size: 3000,
+    description: "This place is so sick",
     pictureUrl:
       "https://www.eatthis.com/wp-content/uploads/sites/4/2019/12/groundwork-los-angeles-coffee-shops.jpg?quality=82&strip=1&w=1250",
     createdAt: new Date(),
@@ -47,6 +50,7 @@ const HARD_CODED_PROPERTIES = [
     price: 280,
     typeOfSpace: "Cocktail bar",
     size: 1580,
+    description: "You won't believe what I had to do to get this place",
     pictureUrl:
       "https://robbreport.com/wp-content/uploads/2022/09/Shinjis-Interior.jpg?w=1000",
     createdAt: new Date(),
