@@ -5,6 +5,7 @@ import { LoadingSpinner } from "../../sharedComponents/LoadingSpinner";
 import { StylesType } from "../../styles";
 import { Colors } from "../../colors";
 import moment from "moment";
+import { BookProperty } from "./components/BookProperty";
 
 export const PropertyScreen = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -58,6 +59,7 @@ export const PropertyScreen = () => {
           <label style={styles.fullDescription}>{property.description}</label>
         </div>
       </div>
+      <BookProperty property={property} />
     </div>
   );
 };
@@ -84,6 +86,7 @@ const styles: StylesType = {
     height: 260,
     objectFit: "cover",
     borderRadius: 8,
+    boxShadow: "0px 2px 6px rgba(0,0,0,0.2)",
   },
   rightSide: {
     display: "flex",
