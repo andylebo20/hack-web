@@ -3,6 +3,7 @@ import { Api, Property } from "../../api";
 import { useParams } from "react-router-dom";
 import { LoadingSpinner } from "../../sharedComponents/LoadingSpinner";
 import { StylesType } from "../../styles";
+import { Colors } from "../../colors";
 
 export const PropertyScreen = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -29,15 +30,25 @@ export const PropertyScreen = () => {
 
   if (isLoading || !property) {
     return (
-      <div style={{ ...styles.container, paddingTop: 70 }}>
-        <LoadingSpinner size={20} />
+      <div style={{ ...styles.container, paddingTop: 300 }}>
+        <LoadingSpinner size={40} />
       </div>
     );
   }
 
   return (
     <div style={styles.container}>
-      <label>Property price: {property.price}</label>
+      <div style={styles.innerContainer}>
+        <img src={property.pictureUrl} style={styles.propertyPicture} />
+        <div style={styles.rightSide}>
+          <label style={styles.price}>${property.price}/hr</label>
+          <label style={styles.address}>{property.address}</label>
+          <label style={styles.desc}>
+            {property.typeOfSpace} with {property.size} square feet of available
+            space.
+          </label>
+        </div>
+      </div>
     </div>
   );
 };
@@ -48,5 +59,42 @@ const styles: StylesType = {
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "flex-start",
+    paddingTop: 80,
+  },
+  innerContainer: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  propertyPicture: {
+    width: 300,
+    height: 180,
+    objectFit: "cover",
+    borderRadius: 8,
+  },
+  rightSide: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "flex-start",
+    alignItems: "flex-start",
+    marginLeft: 60,
+    padding: 30,
+    backgroundColor: Colors.white,
+    borderRadius: 8,
+    boxShadow: "0px 2px 6px rgba(0,0,0,0.2)",
+  },
+  price: {
+    fontSize: 24,
+    fontWeight: 600,
+  },
+  address: {
+    fontSize: 16,
+    paddingTop: 8,
+    color: Colors.darkGray,
+  },
+  desc: {
+    fontSize: 16,
+    paddingTop: 8,
   },
 };
