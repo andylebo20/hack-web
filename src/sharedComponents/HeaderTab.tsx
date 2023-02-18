@@ -16,10 +16,17 @@ export const HeaderTab = ({ isSelected, route, title }: Props) => {
     <button
       style={{
         ...styles.container,
-        ...(isSelected && {
-          cursor: "auto",
-          backgroundColor: Colors.superLightGray,
-        }),
+        ...(isSelected
+          ? {
+              cursor: "auto",
+              fontWeight: 800,
+              borderBottomColor: Colors.pinkishRed,
+              borderBottomWidth: 1,
+              borderBottomStyle: "solid",
+            }
+          : {
+              borderBottomWidth: 0,
+            }),
       }}
       onClick={() => (isSelected ? null : history.push(route))}
     >
@@ -36,13 +43,9 @@ const styles: StylesType = {
     border: "none",
     paddingLeft: 10,
     paddingRight: 10,
-    paddingTop: 6,
-    paddingBottom: 6,
-    borderRadius: 8,
+    height: "100%",
     marginLeft: 25,
-    position: "relative",
-    bottom: 2,
     fontSize: 14,
-    fontWeight: 500
+    fontWeight: 500,
   },
 };

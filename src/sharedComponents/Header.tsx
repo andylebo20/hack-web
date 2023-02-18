@@ -53,4 +53,11 @@ const styles: StylesType = {
     paddingRight: 25,
     paddingLeft: 35,
   },
+  leftSide: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "flex-start",
+    alignItems: "center",
+    height: "100%",
+  },
 };
