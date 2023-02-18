@@ -1,6 +1,10 @@
 import axios from "axios";
 
-const BASE_URL = "https://hack-server.onrender.com/api/users";
+const IS_RUNNING_SERVER_LOCALLY = true;
+
+const BASE_URL = IS_RUNNING_SERVER_LOCALLY
+  ? "http://localhost:5900/api/users"
+  : "https://hack-server.onrender.com/api/users";
 
 export type Property = {
   _id: string;
@@ -65,18 +69,18 @@ export const Api = {
     return HARD_CODED_PROPERTIES;
   },
   // returns a booking object
-  createBooking: async (
-    propertyId: string,
-    nameOfRenter: string,
-    emailOfRenter: string
-  ): Promise<Booking> => {
-    const res = await axios.post(BASE_URL + "/book", {
-      propertyId,
-      nameOfRenter,
-      emailOfRenter,
-    });
-    return res.data;
-  },
+  //   createBooking: async (
+  //     propertyId: string,
+  //     nameOfRenter: string,
+  //     emailOfRenter: string
+  //   ): Promise<Booking> => {
+  //     const res = await axios.post(BASE_URL + "/book", {
+  //       propertyId,
+  //       nameOfRenter,
+  //       emailOfRenter,
+  //     });
+  //     return res.data;
+  //   },
   // returns a property object
   getProperty: async (propertyId: string): Promise<Property> => {
     const res = await axios.get(BASE_URL + `/property/${propertyId}`);
@@ -96,6 +100,20 @@ export const Api = {
       typeOfSpace,
       size,
       pictureUrl,
+    });
+    return res.data;
+  },
+  // returns a property object
+  getCheckoutPageUrl: async (
+    propertyId: string,
+    nameOfRenter: string,
+    emailOfRenter: string
+  ): Promise<string> => {
+    const res = await axios.get(BASE_URL + `/checkout-url/${propertyId}`, {
+      params: {
+        nameOfRenter,
+        emailOfRenter,
+      },
     });
     return res.data;
   },
