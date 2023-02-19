@@ -69,6 +69,7 @@ export const BookProperty = ({ property }: Props) => {
               style={styles.input}
               value={name}
               onChange={(e) => setName(e.target.value)}
+              id="full_name_input"
             />
             <label style={styles.inputTitle}>Email</label>
             <input

@@ -31,6 +31,12 @@ export const PropertyScreen = () => {
     if (reserveFormBtn) {
       reserveFormBtn.scrollIntoView({ behavior: "smooth" });
     }
+    setTimeout(() => {
+      const fullNameInput = document.getElementById("full_name_input");
+      if (fullNameInput) {
+        fullNameInput.focus();
+      }
+    }, 1400);
   };
 
   useEffect(() => {
@@ -100,8 +106,8 @@ const styles: StylesType = {
     maxWidth: 1000,
   },
   propertyPicture: {
-    width: 450,
-    height: 260,
+    width: 470,
+    height: 300,
     objectFit: "cover",
     borderRadius: 8,
     boxShadow: "0px 2px 6px rgba(0,0,0,0.2)",
@@ -118,7 +124,7 @@ const styles: StylesType = {
     boxShadow: "0px 2px 6px rgba(0,0,0,0.2)",
     width: "50%",
     maxWidth: 500,
-    minHeight: 200,
+    minHeight: 240,
   },
   price: {
     fontSize: 24,
