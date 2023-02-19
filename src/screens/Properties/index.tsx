@@ -100,14 +100,14 @@ export const PropertiesScreen = () => {
               <Link to={`/property/${property._id}`}>
                 <img
                   alt="property image"
-                  src={property?.pictureUrl}
+                  src={property.pictureUrl}
                   style={styles.propertyPicture}
                 />
               </Link>
               <div>
-                <h3 style={styles.size}>{property?.typeOfSpace}</h3>
-                <h3 style={styles.address}>{property?.size} sqft</h3>
-                <h3 style={styles.address}>${property?.price}/hr</h3>
+                <h3 style={styles.address}>{property.address}</h3>
+                <h3 style={styles.size}>{property.size} sqft</h3>
+                <h3 style={styles.price}>${property.price}/hr</h3>
               </div>
             </div>
           </div>

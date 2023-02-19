@@ -66,7 +66,6 @@ const styles: StylesType = {
   innerContainer: {
     display: "flex",
     flexDirection: "column",
-    paddingTop: 100,
     width: "100%",
     maxWidth: 800,
   },

@@ -25,6 +25,14 @@ export type Booking = {
   createdAt: Date;
 };
 
+export type OwnerStats = {
+  totalEarnedInLifetime: number;
+  averageDaysBooked: number;
+  averagePricePaid: number;
+  estimatedEarningsThisYear: number;
+  numBookings: number;
+};
+
 export const Api = {
 
   // returns array of Property objects
@@ -38,12 +46,18 @@ export const Api = {
     return res.data;
   },
   // returns a property object
+  getOwnerStats: async (): Promise<OwnerStats> => {
+    const res = await axios.get(BASE_URL + `/booking-data`);
+    return res.data;
+  },
+  // returns a property object
   createProperty: async (
     address: string,
     price: number,
     typeOfSpace: string,
     size: number,
-    pictureUrl: string
+    pictureUrl: string,
+    description: string
   ): Promise<Property> => {
     const res = await axios.post(BASE_URL + "/property", {
       address,
@@ -51,6 +65,7 @@ export const Api = {
       typeOfSpace,
       size,
       pictureUrl,
+      description,
     });
     return res.data;
   },
@@ -58,12 +73,14 @@ export const Api = {
   getCheckoutPageUrl: async (
     propertyId: string,
     nameOfRenter: string,
-    emailOfRenter: string
+    emailOfRenter: string,
+    daysBooked: number
   ): Promise<string> => {
     const res = await axios.get(BASE_URL + `/checkout-url/${propertyId}`, {
       params: {
         nameOfRenter,
         emailOfRenter,
+        daysBooked,
       },
     });
     return res.data;

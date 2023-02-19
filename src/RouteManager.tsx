@@ -7,6 +7,7 @@ import { SuccessfulReservationScreen } from "./screens/SuccessfulReservation";
 import { HEADER_HEIGHT, Header } from "./sharedComponents/Header";
 import { StylesType } from "./styles";
 import { Colors } from "./colors";
+import { StatsScreen } from "./screens/StatsScreen";
 
 export const RouteManager = () => {
   return (
@@ -17,6 +18,7 @@ export const RouteManager = () => {
           <Route path="/properties" component={PropertiesScreen} />
           <Route path="/property/:id" component={PropertyScreen} />
           <Route path="/owner/new-store" component={NewStoreScreen} />
+          <Route path="/owner/stats" component={StatsScreen} />
           <Route
             path="/checkout-success/:id"
             component={SuccessfulReservationScreen}
