@@ -5,10 +5,84 @@ import { LoadingSpinner } from "../../sharedComponents/LoadingSpinner";
 import { Colors } from "../../colors";
 import _ from "lodash";
 import { numberToNumberWithCommas } from "../../helpers";
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+} from "chart.js";
+import { Line } from "react-chartjs-2";
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
+);
+
+export const options = {
+  responsive: true,
+  plugins: {
+    legend: {
+      position: "top" as const,
+    },
+    title: {
+      display: false,
+      text: "Lifetime earnings (USD)",
+    },
+  },
+};
+
+const labels = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
 
 export const StatsScreen = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [stats, setStats] = useState<OwnerStats | null>(null);
+
+  const data = {
+    labels,
+    datasets: [
+      {
+        label: "Lifetime earnings (USD)",
+        data: [
+          0,
+          stats?.totalEarnedInLifetime,
+          stats?.totalEarnedInLifetime,
+          stats?.totalEarnedInLifetime,
+          stats?.totalEarnedInLifetime,
+          stats?.totalEarnedInLifetime,
+          stats?.totalEarnedInLifetime,
+          stats?.totalEarnedInLifetime,
+          stats?.totalEarnedInLifetime,
+          stats?.totalEarnedInLifetime,
+          stats?.totalEarnedInLifetime,
+          stats?.totalEarnedInLifetime,
+        ],
+        borderColor: Colors.green,
+        backgroundColor: Colors.green,
+      },
+    ],
+  };
 
   const _fetchStats = async () => {
     try {
@@ -48,6 +122,13 @@ export const StatsScreen = () => {
           </a>
         </label>
         <div style={styles.block}>
+          <Line
+            options={options}
+            data={data}
+            style={{ marginBottom: 30 }}
+            height={100}
+          />
+          <hr style={styles.hr} />
           <label style={styles.statsLbl1}>
             <span style={styles.importantNumber}>{stats.numBookings}</span>{" "}
             {stats.numBookings === 1 ? "booking" : "bookings"}
@@ -94,7 +175,8 @@ const styles: StylesType = {
     justifyContent: "flex-start",
     alignItems: "center",
     width: "100%",
-    paddingTop: 150,
+    paddingTop: 80,
+    paddingBottom: 30,
   },
   innerContainer: {
     display: "flex",
@@ -139,5 +221,12 @@ const styles: StylesType = {
   earnMoreLbl: {
     paddingBottom: 35,
     color: Colors.darkGray,
+  },
+  hr: {
+    backgroundColor: Colors.lightGray,
+    height: 1,
+    border: "none",
+    width: "100%",
+    marginBottom: 30,
   },
 };
