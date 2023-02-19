@@ -13,6 +13,7 @@ export const NewStoreScreen = () => {
   const [price, setPrice] = useState<string>("");
   const [typeOfSpace, setTypeOfSpace] = useState<string>("");
   const [size, setSize] = useState<string>("");
+  const [hours, setHours] = useState<string>("");
   const [pictureUrl, setPictureUrl] = useState<string>("");
   const [description, setDescription] = useState<string>("");
 
@@ -25,6 +26,7 @@ export const NewStoreScreen = () => {
         !typeOfSpace ||
         !size ||
         !pictureUrl ||
+        !hours ||
         isNaN(Number(size)) ||
         isNaN(Number(price))
       ) {
@@ -35,6 +37,7 @@ export const NewStoreScreen = () => {
         Number(price),
         typeOfSpace,
         Number(size),
+        hours,
         pictureUrl,
         description
       );
@@ -85,6 +88,13 @@ export const NewStoreScreen = () => {
             value={size}
             onChange={(e) => setSize(e.target.value)}
             placeholder="1800"
+          />
+          <label style={styles.inputTitle}>Hours</label>
+          <input
+            style={styles.input}
+            value={size}
+            onChange={(e) => setHours(e.target.value)}
+            placeholder="Monday - Friday"
           />
           <label style={styles.inputTitle}>
             Picture URL of the inside of your store

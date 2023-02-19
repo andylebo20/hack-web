@@ -57,6 +57,7 @@ export const Api = {
     typeOfSpace: string,
     size: number,
     pictureUrl: string,
+    hours: string,
     description: string
   ): Promise<Property> => {
     const res = await axios.post(BASE_URL + "/property", {
@@ -65,6 +66,7 @@ export const Api = {
       typeOfSpace,
       size,
       pictureUrl,
+      hours,
       description,
     });
     return res.data;
