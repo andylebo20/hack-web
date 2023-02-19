@@ -1,111 +1,146 @@
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { Api, Property } from "../../api";
 import React, { useEffect, useState } from "react";
 import { LoadingSpinner } from "../../sharedComponents/LoadingSpinner";
 import { StylesType } from "../../styles";
 import { Colors } from "../../colors";
 import { showGenericErrorAlert } from "../../helpers";
+import { PropertyCard } from "./components/Property";
 
 export const PropertiesScreen = () => {
-  const [error, setError] = useState(null);
+  const history = useHistory();
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [isBtnLoading, setIsBtnLoading] = useState<boolean>(false);
   const [propertiesList, setPropertiesList] = useState<Property[]>([]);
   const [filteredProperties, setFilteredProperties] = useState<Property[]>([]);
   const [minPrice, setMinPrice] = useState<string>();
   const [maxPrice, setMaxPrice] = useState<string>();
+  const [minSize, setMinSize] = useState<string>();
+  const [maxSize, setMaxSize] = useState<string>();
+  const [isFilterApplied, setIsFilterApplied] = useState<boolean>(false);
 
-  const fetchProperies = async () => {
-      try {
-        setIsLoading(true);
-        const fetchedProperties = await Api.getProperties();
-        if (fetchedProperties) {
-          setFilteredProperties(fetchedProperties);
-          setPropertiesList(fetchedProperties);
-          setError(null);
-        }
-      } catch (e) {
-        console.error(e);
+  const fetchProperties = async () => {
+    try {
+      setIsLoading(true);
+      const fetchedProperties = await Api.getProperties();
+      if (fetchedProperties) {
+        setFilteredProperties(fetchedProperties);
+        setPropertiesList(fetchedProperties);
       }
-      setIsLoading(false);
-    };
+    } catch (e) {
+      console.error(e);
+    }
+    setIsLoading(false);
+  };
 
   useEffect(() => {
-    fetchProperies();
+    fetchProperties();
   }, []);
 
   if (isLoading || !propertiesList) {
     return (
-      <div style={{ ...styles.container, paddingTop: 70 }}>
-        <LoadingSpinner size={20} />
+      <div style={{ ...styles.container, paddingTop: 300 }}>
+        <LoadingSpinner size={40} />
       </div>
     );
   }
 
-  const _handleFilter = async () => {
+  const _handleFilter = () => {
     try {
       const intMinPrice = Number(minPrice);
       const intMaxPrice = Number(maxPrice);
-      if (intMinPrice || intMaxPrice) {
-        const tempFilteredProperties = propertiesList.filter(property => {
-          if (intMinPrice && property.price <= intMinPrice){
+      const intMinSize = Number(minSize);
+      const intMaxSize = Number(maxSize);
+      if (intMinPrice || intMaxPrice || intMinSize || intMaxSize) {
+        const tempFilteredProperties = propertiesList.filter((property) => {
+          if (intMinPrice && property.price <= intMinPrice) {
             return false;
           }
-          if (intMaxPrice && property.price >= intMaxPrice){
+          if (intMaxPrice && property.price >= intMaxPrice) {
+            return false;
+          }
+          if (intMinSize && property.size <= intMinSize) {
+            return false;
+          }
+          if (intMaxSize && property.size >= intMaxSize) {
             return false;
           }
           return true;
         });
         setFilteredProperties(tempFilteredProperties);
-
-        console.log("propertiesList", propertiesList)
-        console.log("tempFilteredProperties", tempFilteredProperties)
+        setIsFilterApplied(true);
       }
     } catch (e) {
       showGenericErrorAlert(e);
     }
   };
 
+  const _removeFilter = () => {
+    setMinPrice("");
+    setMaxPrice("");
+    setMinSize("");
+    setMaxSize("");
+    setFilteredProperties(propertiesList);
+    setIsFilterApplied(false);
+  };
+
   return (
-    <div>
-      <h2 style={styles.title}> Properties</h2>
-      <div style={styles.container}>
-        <input
-          value={minPrice}
-          placeholder="Price Min"
-          onChange={(e) => setMinPrice(e.target.value)}
-        />
-        <input
-          value={maxPrice}
-          placeholder="Price Max"
-          onChange={(e) => setMaxPrice(e.target.value)}
-        />
-        <button
-            style={styles.filterBtn}
-            onClick={_handleFilter}
-        >
-        Filter
-        </button>
-      </div>
-      <div style={styles.container}>
-        {filteredProperties.map((property) => (
-          <div style={styles.innerContainer}>
-            <div style={styles.propertyCard}>
-              <Link to={`/property/${property._id}`}>
-                <img
-                  alt="property image"
-                  src={property.pictureUrl}
-                  style={styles.propertyPicture}
-                />
-              </Link>
-              <div>
-                <h3 style={styles.address}>{property.address}</h3>
-                <h3 style={styles.size}>{property.size} sqft</h3>
-                <h3 style={styles.price}>${property.price}/hr</h3>
-              </div>
-            </div>
-          </div>
-        ))}
+    <div style={styles.container}>
+      <div style={styles.innerContainer}>
+        <label style={styles.mainTitle}>
+          {isFilterApplied
+            ? `Showing ${filteredProperties.length} ${
+                filteredProperties.length === 1 ? "property" : "properties"
+              }`
+            : "Showing all properties"}
+        </label>
+        <div style={styles.filterContainer}>
+          <input
+            value={minPrice}
+            placeholder="Price min"
+            onChange={(e) => setMinPrice(e.target.value)}
+            style={styles.filterInput}
+          />
+          <input
+            value={maxPrice}
+            placeholder="Price max"
+            onChange={(e) => setMaxPrice(e.target.value)}
+            style={styles.filterInput}
+          />
+          <input
+            value={minSize}
+            placeholder="Sq ft min"
+            onChange={(e) => setMinSize(e.target.value)}
+            style={styles.filterInput}
+          />
+          <input
+            value={maxSize}
+            placeholder="Sq ft max"
+            onChange={(e) => setMaxSize(e.target.value)}
+            style={styles.filterInput}
+          />
+          <button style={styles.filterBtn} onClick={_handleFilter}>
+            Apply filter
+          </button>
+          {isFilterApplied ? (
+            <button
+              style={{ ...styles.filterBtn, marginLeft: 10 }}
+              onClick={_removeFilter}
+            >
+              Remove filter
+            </button>
+          ) : null}
+        </div>
+        <div style={styles.properties}>
+          {filteredProperties.length ? (
+            filteredProperties.map((property) => (
+              <PropertyCard property={property} />
+            ))
+          ) : (
+            <label style={styles.noResults}>
+              No properties match this filter.
+            </label>
+          )}
+        </div>
       </div>
     </div>
   );
@@ -115,10 +150,27 @@ const styles: StylesType = {
   container: {
     display: "flex",
     flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "flex-start",
+    width: "100%",
+    paddingBottom: 70,
+  },
+  filterContainer: {
+    display: "flex",
+    flexDirection: "row",
     alignItems: "center",
     justifyContent: "flex-start",
-    paddingTop: 80,
     width: "100%",
+    maxWidth: 800,
+    height: 30,
+    paddingBottom: 20,
+  },
+  properties: {
+    width: "100%",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "flex-start",
+    alignItems: "flex-start",
   },
   innerContainer: {
     // display: "grid",
@@ -126,37 +178,13 @@ const styles: StylesType = {
     // flexWrap: "wrap",
     // justifyContent: "space-evenly",
     display: "flex",
-    flexDirection: "row",
+    flexDirection: "column",
     justifyContent: "flex-start",
     alignItems: "flex-start",
     width: "100%",
-    maxWidth: 1000,
+    maxWidth: 800,
     marginLeft: 60,
     padding: 30,
-  },
-  propertyCard: {
-    display: "inline-block",
-    alignItems: "center",
-    width: 120,
-  },
-  propertyPicture: {
-    width: 260,
-    height: 260,
-    objectFit: "cover",
-    borderRadius: 8,
-    boxShadow: "0px 2px 6px rgba(0,0,0,0.2)",
-  },
-  price: {
-    fontSize: 16,
-    fontWeight: 600,
-  },
-  address: {
-    fontSize: 16,
-    paddingTop: 8,
-    color: Colors.darkGray,
-  },
-  desc: {
-    display: "block",
   },
   hr: {
     backgroundColor: Colors.lightGray,
@@ -183,5 +211,38 @@ const styles: StylesType = {
     alignItems: "flex-start",
     width: "100%",
     maxWidth: 1000,
+  },
+  filterInput: {
+    outline: "none",
+    border: "none",
+    backgroundColor: Colors.superLightGray,
+    borderRadius: 8,
+    paddingLeft: 8,
+    width: 80,
+    marginRight: 16,
+    height: "100%",
+  },
+  filterBtn: {
+    outline: "none",
+    cursor: "pointer",
+    backgroundColor: Colors.white,
+    borderRadius: 8,
+    borderStyle: "solid",
+    borderWidth: 1,
+    borderColor: Colors.black,
+    height: "100%",
+    paddingLeft: 12,
+    paddingRight: 12,
+  },
+  mainTitle: {
+    paddingBottom: 34,
+    fontSize: 40,
+    fontWeight: 600,
+    paddingTop: 50,
+  },
+  noResults: {
+    fontSize: 16,
+    color: Colors.darkGray,
+    paddingTop: 20,
   },
 };
