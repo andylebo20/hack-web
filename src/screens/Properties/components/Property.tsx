@@ -29,7 +29,9 @@ export const PropertyCard = ({ property }: Props) => {
       />
       <div style={styles.rightSide}>
         <label style={styles.address}>{property.address}</label>
-        <label style={styles.size}>{property.size} sqft</label>
+        <label style={styles.size}>
+          {property.typeOfSpace} with {property.size} square feet of space
+        </label>
         <label style={styles.price}>${property.price}/day</label>
       </div>
     </button>
@@ -55,18 +57,18 @@ const styles: StylesType = {
     transition: "all 0.2s ease-out",
   },
   propertyPicture: {
-    width: 270,
-    height: 130,
+    width: 400,
+    height: 200,
     objectFit: "cover",
     borderRadius: 8,
     boxShadow: "0px 2px 6px rgba(0,0,0,0.2)",
     cursor: "pointer",
   },
   price: {
-    fontSize: 20,
+    fontSize: 28,
     fontWeight: 600,
-    paddingTop: 12,
-    color: Colors.pinkishRed,
+    paddingTop: 90,
+    color: Colors.black,
     cursor: "pointer",
   },
   address: {
@@ -88,7 +90,7 @@ const styles: StylesType = {
     cursor: "pointer",
   },
   size: {
-    fontSize: 14,
+    fontSize: 16,
     paddingTop: 8,
     cursor: "pointer",
   },

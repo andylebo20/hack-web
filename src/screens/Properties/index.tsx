@@ -16,6 +16,7 @@ export const PropertiesScreen = () => {
   const [maxPrice, setMaxPrice] = useState<string>();
   const [minSize, setMinSize] = useState<string>();
   const [maxSize, setMaxSize] = useState<string>();
+  const [searchInput, setSearchInput] = useState<string>("");
   const [isFilterApplied, setIsFilterApplied] = useState<boolean>(false);
 
   const fetchProperties = async () => {
@@ -44,13 +45,19 @@ export const PropertiesScreen = () => {
     );
   }
 
-  const _handleFilter = () => {
+  const _handleFilter = (overrideSearchInput?: string) => {
     try {
       const intMinPrice = Number(minPrice);
       const intMaxPrice = Number(maxPrice);
       const intMinSize = Number(minSize);
       const intMaxSize = Number(maxSize);
-      if (intMinPrice || intMaxPrice || intMinSize || intMaxSize) {
+      if (
+        intMinPrice ||
+        intMaxPrice ||
+        intMinSize ||
+        intMaxSize ||
+        overrideSearchInput
+      ) {
         const tempFilteredProperties = propertiesList.filter((property) => {
           if (intMinPrice && property.price <= intMinPrice) {
             return false;
@@ -62,6 +69,14 @@ export const PropertiesScreen = () => {
             return false;
           }
           if (intMaxSize && property.size >= intMaxSize) {
+            return false;
+          }
+          if (
+            overrideSearchInput &&
+            !property.address
+              .toLowerCase()
+              .includes(overrideSearchInput.toLowerCase())
+          ) {
             return false;
           }
           return true;
@@ -83,6 +98,16 @@ export const PropertiesScreen = () => {
     setIsFilterApplied(false);
   };
 
+  const onSearchInputChange = (e: any) => {
+    setSearchInput(e.target.value);
+    if (!e.target.value) {
+      setFilteredProperties(propertiesList);
+      setIsFilterApplied(false);
+      return;
+    }
+    _handleFilter(e.target.value);
+  };
+
   return (
     <div style={styles.container}>
       <div style={styles.innerContainer}>
@@ -93,6 +118,14 @@ export const PropertiesScreen = () => {
               }`
             : "Showing all properties"}
         </label>
+        <div style={styles.searchBarContainer}>
+          <input
+            value={searchInput}
+            onChange={onSearchInputChange}
+            placeholder="Search by location"
+            style={styles.searchBar}
+          />
+        </div>
         <div style={styles.filterContainer}>
           <input
             value={minPrice}
@@ -118,7 +151,7 @@ export const PropertiesScreen = () => {
             onChange={(e) => setMaxSize(e.target.value)}
             style={styles.filterInput}
           />
-          <button style={styles.filterBtn} onClick={_handleFilter}>
+          <button style={styles.filterBtn} onClick={() => _handleFilter()}>
             Apply filter
           </button>
           {isFilterApplied ? (
@@ -182,7 +215,7 @@ const styles: StylesType = {
     justifyContent: "flex-start",
     alignItems: "flex-start",
     width: "100%",
-    maxWidth: 800,
+    maxWidth: 1000,
     marginLeft: 60,
     padding: 30,
   },
@@ -244,5 +277,23 @@ const styles: StylesType = {
     fontSize: 16,
     color: Colors.darkGray,
     paddingTop: 20,
+  },
+  searchBar: {
+    outline: "none",
+    borderWidth: 1,
+    borderStyle: "solid",
+    borderColor: Colors.superLightGray,
+    backgroundColor: Colors.white,
+    boxShadow: "0px 2px 10px rgba(0,0,0,0.1)",
+    width: "98.5%",
+    height: 40,
+    marginBottom: 28,
+    borderRadius: 8,
+    fontSize: 15,
+    paddingLeft: 12,
+  },
+  searchBarContainer: {
+    width: "100%",
+    maxWidth: "100%",
   },
 };
