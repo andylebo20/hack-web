@@ -26,6 +26,13 @@ export const PropertyScreen = () => {
     setIsLoading(false);
   };
 
+  const _handleScrollToReserveForm = () => {
+    const reserveFormBtn = document.getElementById("reserve_form_btn");
+    if (reserveFormBtn) {
+      reserveFormBtn.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   useEffect(() => {
     _fetchProperty();
   }, [id]);
@@ -41,10 +48,15 @@ export const PropertyScreen = () => {
   return (
     <div style={styles.container}>
       <div style={styles.topInfo}>
-        <label style={styles.title}>Property details</label>
-        <label style={styles.listedDaysAgo}>
-          Listed {moment(property.createdAt).fromNow()}
-        </label>
+        <div style={styles.leftSideOfTop}>
+          <label style={styles.title}>Property details</label>
+          <label style={styles.listedDaysAgo}>
+            Listed {moment(property.createdAt).fromNow()}
+          </label>
+        </div>
+        <button style={styles.reserveBtn} onClick={_handleScrollToReserveForm}>
+          Reserve space
+        </button>
       </div>
       <div style={styles.innerContainer}>
         <img src={property.pictureUrl} style={styles.propertyPicture} />
@@ -106,6 +118,7 @@ const styles: StylesType = {
     boxShadow: "0px 2px 6px rgba(0,0,0,0.2)",
     width: "50%",
     maxWidth: 500,
+    minHeight: 200,
   },
   price: {
     fontSize: 24,
@@ -139,13 +152,13 @@ const styles: StylesType = {
   listedDaysAgo: {
     fontSize: 16,
     color: Colors.darkGray,
-    paddingBottom: 40,
+    paddingBottom: 30,
   },
   topInfo: {
     display: "flex",
-    flexDirection: "column",
-    justifyContent: "flex-start",
-    alignItems: "flex-start",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "flex-end",
     width: "100%",
     maxWidth: 1000,
   },
@@ -157,6 +170,26 @@ const styles: StylesType = {
     height: 400,
     width: "100%",
     maxWidth: 1000,
-    marginTop: 30,
+    marginTop: 50,
+  },
+  leftSideOfTop: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "flex-end",
+    alignItems: "flex-start",
+  },
+  reserveBtn: {
+    width: 200,
+    height: 45,
+    borderRadius: 8,
+    cursor: "pointer",
+    backgroundColor: Colors.pinkishRed,
+    color: Colors.white,
+    fontWeight: 550,
+    outline: "none",
+    border: "none",
+    fontSize: 16,
+    marginBottom: 30,
+    boxShadow: "0px 2px 12px rgba(0,0,0,0.15)",
   },
 };

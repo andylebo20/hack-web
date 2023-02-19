@@ -16,7 +16,7 @@ export const BookProperty = ({ property }: Props) => {
   const [email, setEmail] = useState<string>("");
   const [daysBooked, setDaysBooked] = useState<number>(1);
   const [isDetailsInputVisible, setIsDetailsInputVisible] =
-    useState<boolean>(false);
+    useState<boolean>(true);
   const finishBookingBtnRef = useRef(null);
 
   const _handleBookProperty = async () => {
@@ -51,57 +51,61 @@ export const BookProperty = ({ property }: Props) => {
   };
 
   return (
-    <div style={styles.container}>
-      <label style={styles.interestedLbl}>
-        {isDetailsInputVisible ? "Let's book it" : "Are you interested?"}
-      </label>
-      <label style={styles.reserveDesc}>
-        {isDetailsInputVisible
-          ? "Once booked, your reservation will begin tomorrow."
-          : "Reserve the space before it gets taken."}
-      </label>
-      {isDetailsInputVisible ? (
-        <div style={styles.innerContainer}>
-          <label style={styles.inputTitle}>Full name</label>
-          <input
-            style={styles.input}
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
-          <label style={styles.inputTitle}>Email</label>
-          <input
-            style={styles.input}
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-          <label style={styles.inputTitle}>Number of days to reserve</label>
-          <input
-            style={styles.input}
-            value={daysBooked}
-            onChange={(e) => setDaysBooked(Number(e.target.value))}
-            type="number"
-          />
+    <>
+      <hr style={styles.hr} />
+      <div style={styles.container}>
+        <label style={styles.interestedLbl}>
+          {isDetailsInputVisible ? "Let's book it" : "Are you interested?"}
+        </label>
+        <label style={styles.reserveDesc}>
+          {isDetailsInputVisible
+            ? "Once booked, your reservation will begin tomorrow."
+            : "Reserve the space before it gets taken."}
+        </label>
+        {isDetailsInputVisible ? (
+          <div style={styles.innerContainer}>
+            <label style={styles.inputTitle}>Full name</label>
+            <input
+              style={styles.input}
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+            <label style={styles.inputTitle}>Email</label>
+            <input
+              style={styles.input}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            <label style={styles.inputTitle}>Number of days to reserve</label>
+            <input
+              style={styles.input}
+              value={daysBooked}
+              onChange={(e) => setDaysBooked(Number(e.target.value))}
+              type="number"
+            />
+            <button
+              style={{
+                ...styles.bookBtn,
+                ...(isLoading && { opacity: 0.3, cursor: "auto" }),
+              }}
+              disabled={isLoading}
+              onClick={_handleBookProperty}
+              ref={finishBookingBtnRef}
+              id="reserve_form_btn"
+            >
+              {isLoading ? "Please wait..." : "Pay and reserve"}
+            </button>
+          </div>
+        ) : (
           <button
-            style={{
-              ...styles.bookBtn,
-              ...(isLoading && { opacity: 0.3, cursor: "auto" }),
-            }}
-            disabled={isLoading}
-            onClick={_handleBookProperty}
-            ref={finishBookingBtnRef}
+            style={styles.openDetailsBtn}
+            onClick={_handleOpenReserveDetails}
           >
-            {isLoading ? "Please wait..." : "Pay and reserve"}
+            Reserve now
           </button>
-        </div>
-      ) : (
-        <button
-          style={styles.openDetailsBtn}
-          onClick={_handleOpenReserveDetails}
-        >
-          Reserve now
-        </button>
-      )}
-    </div>
+        )}
+      </div>
+    </>
   );
 };
 
@@ -113,7 +117,7 @@ const styles: StylesType = {
     alignItems: "flex-start",
     paddingTop: 60,
     width: "100%",
-    maxWidth: 1000,
+    maxWidth: 500,
     paddingBottom: 200,
   },
   interestedLbl: {
@@ -140,7 +144,7 @@ const styles: StylesType = {
     outline: "none",
     paddingTop: 8,
     paddingBottom: 8,
-    width: 250,
+    width: "97%",
     marginBottom: 25,
   },
   bookBtn: {
@@ -162,8 +166,11 @@ const styles: StylesType = {
     alignItems: "flex-start",
     //padding: 20,
     backgroundColor: Colors.white,
+    padding: 20,
     //boxShadow: "0px 2px 6px rgba(0,0,0,0.2)",
     borderRadius: 8,
+    width: "100%",
+    boxShadow: "0px 2px 6px rgba(0,0,0,0.2)",
   },
   openDetailsBtn: {
     width: 150,
@@ -176,5 +183,12 @@ const styles: StylesType = {
     outline: "none",
     border: "none",
     fontSize: 16,
+  },
+  hr: {
+    backgroundColor: Colors.superLightGray,
+    height: 1,
+    border: "none",
+    width: "80%",
+    marginTop: 80,
   },
 };

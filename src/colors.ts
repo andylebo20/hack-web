@@ -4,6 +4,6 @@ export const Colors = {
   darkGray: "rgb(70,70,70)",
   white: "white",
   black: "black",
-  pinkishRed: "#b51065",
+  pinkishRed: "#e81075",
   green: "green",
 };
