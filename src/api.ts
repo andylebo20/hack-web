@@ -26,6 +26,7 @@ export type Booking = {
 };
 
 export const Api = {
+
   // returns array of Property objects
   getProperties: async (): Promise<Property[]> => {
     const res = await axios.get(BASE_URL + "/properties");

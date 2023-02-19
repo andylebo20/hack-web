@@ -4,14 +4,18 @@ import React, { useEffect, useState } from "react";
 import { LoadingSpinner } from "../../sharedComponents/LoadingSpinner";
 import { StylesType } from "../../styles";
 import { Colors } from "../../colors";
+import { showGenericErrorAlert } from "../../helpers";
 
 export const PropertiesScreen = () => {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isBtnLoading, setIsBtnLoading] = useState<boolean>(false);
   const [propertiesList, setPropertiesList] = useState<Property[]>([]);
+  const [filteredProperties, setFilteredProperties] = useState<Property[] | null>([]);
+  const [minPrice, setMinPrice] = useState<string>();
+  const [maxPrice, setMaxPrice] = useState<string>();
 
-  useEffect(() => {
-    const fetchProperies = async () => {
+  const fetchProperies = async () => {
       try {
         setIsLoading(true);
         const fetchedProperties = await Api.getProperties();
@@ -24,8 +28,12 @@ export const PropertiesScreen = () => {
       }
       setIsLoading(false);
     };
+
+  useEffect(() => {
     fetchProperies();
   }, []);
+
+  console.log(isLoading)
 
   if (isLoading || !propertiesList) {
     return (
@@ -34,19 +42,62 @@ export const PropertiesScreen = () => {
       </div>
     );
   }
+
+  const _handleFilter = async () => {
+    try {
+      console.log("hereee")
+      const intMinPrice = Number(minPrice);
+      const intMaxPrice = Number(maxPrice);
+      console.log(intMinPrice)
+      console.log(intMaxPrice)
+      if (minPrice || maxPrice) {
+        const tempFilteredProperties = propertiesList.filter(property => {
+          if (minPrice && property.price < intMinPrice){
+            return false
+          }
+          if (maxPrice && property.price > intMaxPrice){
+            return false
+          }
+          return true
+        });
+        setFilteredProperties(tempFilteredProperties);
+      }
+    } catch (e) {
+      showGenericErrorAlert(e);
+    }
+  };
+
+  // if min price or max price exists
+  // iterate through properties array --> how do i access properties object
+  // setFilteredPropertes to properties > min and < max
+  // return filtered properties
+
   return (
     <div>
       <h2 style={styles.title}> Properties</h2>
       <div style={styles.container}>
+        <input
+          value={minPrice}
+          placeholder="Price Min"
+          onChange={(e) => setMinPrice(e.target.value)}
+        />
+        <input
+          value={maxPrice}
+          placeholder="Price Max"
+          onChange={(e) => setMaxPrice(e.target.value)}
+        />
+        <button
+            style={styles.filterBtn}
+            onClick={_handleFilter}
+        >
+        Filter
+        </button>
+      </div>
+      <div style={styles.container}>
         {propertiesList.map((property) => (
           <div style={styles.innerContainer}>
-<<<<<<< HEAD
-            <div style = {styles.propertyCard}> 
-              <Link to={`/property/${property?._id}`}>
-=======
             <div style={styles.propertyCard}>
               <Link to={`/property/${property._id}`}>
->>>>>>> d5b5aa7dc21e6e92b99cf1cc8d381f5513801758
                 <img
                   alt="property image"
                   src={property?.pictureUrl}
