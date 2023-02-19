@@ -7,6 +7,7 @@ import { Colors } from "../../colors";
 import moment from "moment";
 import { BookProperty } from "./components/BookProperty";
 import EyesIcon from "../../assets/eyeIcon.png";
+import { toInteger } from "lodash";
 
 export const PropertyScreen = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -63,7 +64,9 @@ export const PropertyScreen = () => {
         </div>
         <div style={styles.rightSideOfTop}>
           <img src={EyesIcon} style={styles.eyesIcon} />
-          <label style={styles.numViewsLbl}>{property.numViews}</label>
+          <label style={styles.numViewsLbl}>
+            {toInteger(property.numViews / 2)}
+          </label>
           <button
             style={styles.reserveBtn}
             onClick={_handleScrollToReserveForm}
