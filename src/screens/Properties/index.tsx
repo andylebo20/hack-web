@@ -101,7 +101,7 @@ export const PropertiesScreen = () => {
               <div>
                 <h3 style={styles.address}>{property.address}</h3>
                 <h3 style={styles.size}>{property.size} sqft</h3>
-                <h3 style={styles.price}>${property.price}/hr</h3>
+                <h3 style={styles.price}>${property.price}/day</h3>
               </div>
             </div>
           </div>
