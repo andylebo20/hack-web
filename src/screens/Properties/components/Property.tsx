@@ -30,7 +30,8 @@ export const PropertyCard = ({ property }: Props) => {
       <div style={styles.rightSide}>
         <label style={styles.address}>{property.address}</label>
         <label style={styles.size}>
-          {property.typeOfSpace} with {property.size} square feet of space
+          {property.typeOfSpace} with {property.size} square feet of available
+          space
         </label>
         <label style={styles.price}>${property.price}/day</label>
       </div>

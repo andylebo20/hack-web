@@ -28,3 +28,7 @@ export const usePathname = () => {
 
   return activePathname;
 };
+
+// example: 50000 -> 50,000
+export const numberToNumberWithCommas = (val: number): string =>
+  val.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");

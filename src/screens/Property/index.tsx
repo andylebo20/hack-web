@@ -59,6 +59,12 @@ export const PropertyScreen = () => {
           <label style={styles.fullDescription}>{property.description}</label>
         </div>
       </div>
+      <iframe
+        style={styles.frame}
+        loading="lazy"
+        src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyB5v-UwuxB1RNaydxzbq3jMoCm1vuTcDjg
+    &q=${property.address.split(" ").join("+")}`}
+      ></iframe>
       <BookProperty property={property} />
     </div>
   );
@@ -142,5 +148,15 @@ const styles: StylesType = {
     alignItems: "flex-start",
     width: "100%",
     maxWidth: 1000,
+  },
+  frame: {
+    borderRadius: 8,
+    boxShadow: "0px 2px 6px rgba(0,0,0,0.2)",
+    outline: "none",
+    border: "none",
+    height: 400,
+    width: "100%",
+    maxWidth: 1000,
+    marginTop: 30,
   },
 };

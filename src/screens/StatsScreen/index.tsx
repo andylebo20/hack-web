@@ -4,6 +4,7 @@ import { StylesType } from "../../styles";
 import { LoadingSpinner } from "../../sharedComponents/LoadingSpinner";
 import { Colors } from "../../colors";
 import _ from "lodash";
+import { numberToNumberWithCommas } from "../../helpers";
 
 export const StatsScreen = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -53,26 +54,32 @@ export const StatsScreen = () => {
           </label>
           <label style={styles.statsLbl1}>
             <span style={styles.importantNumber}>
-              ${_.round(stats.totalEarnedInLifetime, 2)}
+              $
+              {numberToNumberWithCommas(
+                _.round(stats.totalEarnedInLifetime, 2)
+              )}
             </span>{" "}
             earned total
           </label>
           <label style={styles.statsLbl1}>
             <span style={styles.importantNumber}>
-              ${_.round(stats.averagePricePaid, 2)}
+              ${numberToNumberWithCommas(_.round(stats.averagePricePaid, 2))}
             </span>{" "}
             is how much people pay per reservation for your properties on
             average
           </label>
           <label style={styles.statsLbl1}>
             <span style={styles.importantNumber}>
-              {_.round(stats.averageDaysBooked, 2)}
+              {numberToNumberWithCommas(_.round(stats.averageDaysBooked, 2))}
             </span>{" "}
             days is the average reservation time for your properties
           </label>
           <label style={styles.estEarningsThisYearLbl}>
             We estimate you'll earn $
-            {_.round(stats.estimatedEarningsThisYear, 2)} this year 🎉
+            {numberToNumberWithCommas(
+              _.round(stats.estimatedEarningsThisYear, 2)
+            )}{" "}
+            this year 🎉
           </label>
         </div>
       </div>
