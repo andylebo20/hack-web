@@ -4,6 +4,9 @@ import { StylesType } from "../styles";
 import { HeaderTab } from "./HeaderTab";
 import { Colors } from "../colors";
 import ProfileIcon from "../assets/profileIcon.png";
+import Logo from "../assets/logo.png";
+import { Link } from "react-router-dom";
+
 
 export const HEADER_HEIGHT = 60;
 
@@ -13,6 +16,9 @@ export const Header = () => {
   return (
     <div style={styles.container}>
       <div style={styles.leftSide}>
+        <Link className="logo" to="/properties">
+          <img style={styles.logo} alt="rently logo" src={Logo} />
+        </Link>
         <label style={styles.websiteTitle}>Rently</label>
         <HeaderTab
           title="Properties"
@@ -61,7 +67,13 @@ const styles: StylesType = {
     fontSize: 24,
     fontWeight: 600,
     paddingRight: 25,
+    paddingLeft: 8,
+    color: Colors.pinkishRed,
+  },
+  logo: {
     paddingLeft: 35,
+    width: 40,
+    height: 40,
   },
   leftSide: {
     display: "flex",

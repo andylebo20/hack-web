@@ -37,7 +37,6 @@ export const NewStoreScreen = () => {
         Number(price),
         typeOfSpace,
         Number(size),
-        hours,
         pictureUrl,
         description
       );
@@ -88,13 +87,6 @@ export const NewStoreScreen = () => {
             value={size}
             onChange={(e) => setSize(e.target.value)}
             placeholder="1800"
-          />
-          <label style={styles.inputTitle}>Hours</label>
-          <input
-            style={styles.input}
-            value={size}
-            onChange={(e) => setHours(e.target.value)}
-            placeholder="Monday - Friday"
           />
           <label style={styles.inputTitle}>
             Picture URL of the inside of your store
