@@ -11,7 +11,7 @@ export const PropertiesScreen = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isBtnLoading, setIsBtnLoading] = useState<boolean>(false);
   const [propertiesList, setPropertiesList] = useState<Property[]>([]);
-  const [filteredProperties, setFilteredProperties] = useState<Property[] | null>([]);
+  const [filteredProperties, setFilteredProperties] = useState<Property[]>([]);
   const [minPrice, setMinPrice] = useState<string>();
   const [maxPrice, setMaxPrice] = useState<string>();
 
@@ -20,6 +20,7 @@ export const PropertiesScreen = () => {
         setIsLoading(true);
         const fetchedProperties = await Api.getProperties();
         if (fetchedProperties) {
+          setFilteredProperties(fetchedProperties);
           setPropertiesList(fetchedProperties);
           setError(null);
         }
@@ -33,8 +34,6 @@ export const PropertiesScreen = () => {
     fetchProperies();
   }, []);
 
-  console.log(isLoading)
-
   if (isLoading || !propertiesList) {
     return (
       <div style={{ ...styles.container, paddingTop: 70 }}>
@@ -45,32 +44,27 @@ export const PropertiesScreen = () => {
 
   const _handleFilter = async () => {
     try {
-      console.log("hereee")
       const intMinPrice = Number(minPrice);
       const intMaxPrice = Number(maxPrice);
-      console.log(intMinPrice)
-      console.log(intMaxPrice)
-      if (minPrice || maxPrice) {
+      if (intMinPrice || intMaxPrice) {
         const tempFilteredProperties = propertiesList.filter(property => {
-          if (minPrice && property.price < intMinPrice){
-            return false
+          if (intMinPrice && property.price <= intMinPrice){
+            return false;
           }
-          if (maxPrice && property.price > intMaxPrice){
-            return false
+          if (intMaxPrice && property.price >= intMaxPrice){
+            return false;
           }
-          return true
+          return true;
         });
         setFilteredProperties(tempFilteredProperties);
+
+        console.log("propertiesList", propertiesList)
+        console.log("tempFilteredProperties", tempFilteredProperties)
       }
     } catch (e) {
       showGenericErrorAlert(e);
     }
   };
-
-  // if min price or max price exists
-  // iterate through properties array --> how do i access properties object
-  // setFilteredPropertes to properties > min and < max
-  // return filtered properties
 
   return (
     <div>
@@ -94,7 +88,7 @@ export const PropertiesScreen = () => {
         </button>
       </div>
       <div style={styles.container}>
-        {propertiesList.map((property) => (
+        {filteredProperties.map((property) => (
           <div style={styles.innerContainer}>
             <div style={styles.propertyCard}>
               <Link to={`/property/${property._id}`}>
