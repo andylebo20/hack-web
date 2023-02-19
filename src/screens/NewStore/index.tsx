@@ -95,7 +95,7 @@ export const NewStoreScreen = () => {
             style={styles.input}
             value={pictureUrl}
             onChange={(e) => setPictureUrl(e.target.value)}
-            placeholder="find a picture on yelp!"
+            placeholder="Find a picture on yelp!"
           />
           <label style={styles.inputTitle}>Description</label>
           <textarea
