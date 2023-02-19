@@ -3,6 +3,7 @@ import { usePathname } from "../helpers";
 import { StylesType } from "../styles";
 import { HeaderTab } from "./HeaderTab";
 import { Colors } from "../colors";
+import ProfileIcon from "../assets/profileIcon.png";
 
 export const HEADER_HEIGHT = 60;
 
@@ -28,6 +29,10 @@ export const Header = () => {
           isSelected={pathname === "/owner/new-store"}
           route="/owner/new-store"
         />
+      </div>
+      <div style={styles.profileContainer}>
+        <img src={ProfileIcon} style={styles.profileIcon} />
+        <label style={styles.profileText}>Andy Lebowitz</label>
       </div>
     </div>
   );
@@ -64,5 +69,23 @@ const styles: StylesType = {
     justifyContent: "flex-start",
     alignItems: "center",
     height: "100%",
+  },
+  profileIcon: {
+    width: 20,
+    height: 20,
+  },
+  profileText: {
+    paddingLeft: 10,
+    color: Colors.darkGray,
+    fontSize: 14,
+    cursor: "pointer",
+  },
+  profileContainer: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "flex-end",
+    alignItems: "center",
+    paddingRight: 40,
+    cursor: "pointer",
   },
 };

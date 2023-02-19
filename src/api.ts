@@ -14,6 +14,7 @@ export type Property = {
   size: number;
   pictureUrl: string;
   description: string;
+  numViews: number;
   createdAt: Date;
 };
 
@@ -34,7 +35,6 @@ export type OwnerStats = {
 };
 
 export const Api = {
-
   // returns array of Property objects
   getProperties: async (): Promise<Property[]> => {
     const res = await axios.get(BASE_URL + "/properties");
