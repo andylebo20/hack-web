@@ -6,6 +6,7 @@ import { StylesType } from "../../styles";
 import { Colors } from "../../colors";
 import moment from "moment";
 import { BookProperty } from "./components/BookProperty";
+import EyesIcon from "../../assets/eyeIcon.png";
 
 export const PropertyScreen = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -60,9 +61,16 @@ export const PropertyScreen = () => {
             Listed {moment(property.createdAt).fromNow()}
           </label>
         </div>
-        <button style={styles.reserveBtn} onClick={_handleScrollToReserveForm}>
-          Reserve space
-        </button>
+        <div style={styles.rightSideOfTop}>
+          <img src={EyesIcon} style={styles.eyesIcon} />
+          <label style={styles.numViewsLbl}>{property.numViews}</label>
+          <button
+            style={styles.reserveBtn}
+            onClick={_handleScrollToReserveForm}
+          >
+            Reserve space
+          </button>
+        </div>
       </div>
       <div style={styles.innerContainer}>
         <img src={property.pictureUrl} style={styles.propertyPicture} />
@@ -184,6 +192,12 @@ const styles: StylesType = {
     justifyContent: "flex-end",
     alignItems: "flex-start",
   },
+  rightSideOfTop: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "flex-end",
+    alignItems: "flex-start",
+  },
   reserveBtn: {
     width: 200,
     height: 45,
@@ -197,5 +211,18 @@ const styles: StylesType = {
     fontSize: 16,
     marginBottom: 30,
     boxShadow: "0px 2px 12px rgba(0,0,0,0.15)",
+  },
+  eyesIcon: {
+    width: 20,
+    height: 20,
+    position: "relative",
+    top: 12,
+  },
+  numViewsLbl: {
+    paddingRight: 25,
+    paddingLeft: 8,
+    position: "relative",
+    top: 12,
+    color: Colors.darkGray,
   },
 };
