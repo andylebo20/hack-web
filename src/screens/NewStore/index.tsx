@@ -13,7 +13,6 @@ export const NewStoreScreen = () => {
   const [price, setPrice] = useState<string>("");
   const [typeOfSpace, setTypeOfSpace] = useState<string>("");
   const [size, setSize] = useState<string>("");
-  const [hours, setHours] = useState<string>("");
   const [pictureUrl, setPictureUrl] = useState<string>("");
   const [description, setDescription] = useState<string>("");
 
@@ -26,7 +25,6 @@ export const NewStoreScreen = () => {
         !typeOfSpace ||
         !size ||
         !pictureUrl ||
-        !hours ||
         isNaN(Number(size)) ||
         isNaN(Number(price))
       ) {
